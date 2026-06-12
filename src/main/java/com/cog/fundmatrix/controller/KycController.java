@@ -6,18 +6,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cog.fundmatrix.dto.KycRecordDto;
 import com.cog.fundmatrix.dto.SubmitKycRequest;
+import com.cog.fundmatrix.service.KycService;
 
 @Controller
 @RequestMapping("/api/kyc")
 public class KycController {
 
+	private KycService kycService;
+	
+	
+	public KycController(KycService kycService) {
+		super();
+		this.kycService = kycService;
+	}
+
 	@PostMapping("/")
-	public ResponseEntity<String > submitKyc(SubmitKycRequest kyc)
+	public ResponseEntity<KycRecordDto > submitKyc(@RequestBody SubmitKycRequest kyc)
 	{
-		return null;
+		KycRecordDto response=kycService.submitKyc(kyc);
+		return ResponseEntity.ok(response);
 		
 	}
 	
