@@ -38,11 +38,10 @@ public class KycRecord {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 	
-   
+   @Column(name = "investorId")
     private String investor;
 
     @Enumerated(EnumType.STRING)
-   
     private KycType kycType;
 
    

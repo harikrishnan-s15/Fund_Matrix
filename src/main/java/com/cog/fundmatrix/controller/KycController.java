@@ -1,5 +1,8 @@
 package com.cog.fundmatrix.controller;
 
+import java.util.UUID;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cog.fundmatrix.dto.KycRecordDto;
 import com.cog.fundmatrix.dto.SubmitKycRequest;
+import com.cog.fundmatrix.dto.kyc.KycStatusResposeDto;
 import com.cog.fundmatrix.service.KycService;
 
 @Controller
@@ -29,27 +33,33 @@ public class KycController {
 	public ResponseEntity<KycRecordDto > submitKyc(@RequestBody SubmitKycRequest kyc)
 	{
 		KycRecordDto response=kycService.submitKyc(kyc);
-		return ResponseEntity.ok(response);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 		
 	}
 	
-	@GetMapping("/investor/{id}")
-	public ResponseEntity<String> getKycStatus(@PathVariable String id)
+	@GetMapping("/investor/{investorId}")
+	public ResponseEntity<KycStatusResposeDto> getKycStatus(@PathVariable String investorId)
 	{
-		return null;
+		UUID investorUuid=UUID.fromString(investorId);
+		KycStatusResposeDto response=kycService.getKycStatus(investorUuid);
+		return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<String> getKycDetails(@PathVariable String id)
+	@GetMapping("/{kycId}")
+	public ResponseEntity<KycRecordDto> getKycDetails(@PathVariable String kycId)
 	{
-		return null;
+		UUID uuid=UUID.fromString(kycId);
+		KycRecordDto response=kycService.getKycDetails(uuid);
+		return ResponseEntity.ok(response);
 	}
 	
 	
-	@PutMapping("/{id}/verify")
-	public ResponseEntity<String> verifyKyc(@PathVariable String id)
+	@PutMapping("/{kycId}/verify")
+	public ResponseEntity<KycRecordDto> verifyKyc(@PathVariable String kycId)
 	{
-		return null;
+		UUID kycUuid=UUID.fromString(kycId);
+		KycRecordDto response=kycService.verifyKyc(kycUuid);
+		return ResponseEntity.ok(response);
 	}
 	
 }
