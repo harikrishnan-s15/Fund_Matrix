@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cog.fundmatrix.dto.KycRecordDto;
 import com.cog.fundmatrix.dto.SubmitKycRequest;
+import com.cog.fundmatrix.dto.kyc.KycStatusRequestDto;
 import com.cog.fundmatrix.dto.kyc.KycStatusResposeDto;
 import com.cog.fundmatrix.service.KycService;
 
@@ -55,10 +56,10 @@ public class KycController {
 	
 	
 	@PutMapping("/{kycId}/verify")
-	public ResponseEntity<KycRecordDto> verifyKyc(@PathVariable String kycId)
+	public ResponseEntity<KycRecordDto> verifyKyc(@PathVariable String kycId,@RequestBody KycStatusRequestDto dto)
 	{
 		UUID kycUuid=UUID.fromString(kycId);
-		KycRecordDto response=kycService.verifyKyc(kycUuid);
+		KycRecordDto response=kycService.kycStatusChange(kycUuid,dto.kycStatus());
 		return ResponseEntity.ok(response);
 	}
 	

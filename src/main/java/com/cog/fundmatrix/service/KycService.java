@@ -72,13 +72,21 @@ public class KycService {
 		return response;
 	}
 	
-	public KycRecordDto verifyKyc(UUID kycId)
+	public KycRecordDto kycStatusChange(UUID kycId,KycStatus kycStatus)
 	{
 		KycRecord record=kycRepo.findById(kycId).orElseThrow(()->
 		new RuntimeException("no record for id "+kycId)
 		);
-		record.setKycStatus(KycStatus.COMPLIANT);
-		record.setVerifiedDate(LocalDate.now());
+		record.setKycStatus(kycStatus);
+		if(kycStatus==KycStatus.COMPLIANT)
+		{
+			
+			record.setVerifiedDate(LocalDate.now());
+		}
+		else
+		{
+			record.setVerifiedDate(null);
+		}
 		KycRecord saved=kycRepo.save(record);
 		
 		return mapToKycDto(saved);
@@ -86,7 +94,7 @@ public class KycService {
 	}
 	
 	
-	@Scheduled(cron = "000**?")
+	@Scheduled(cron = "0 0 0 * * ?")
 	public void checkKycExpiry()
 	{
 		List<KycRecord> records=kycRepo.findAll();

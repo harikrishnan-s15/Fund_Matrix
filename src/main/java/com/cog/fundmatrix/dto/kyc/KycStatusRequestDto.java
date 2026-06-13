@@ -1,5 +1,7 @@
 package com.cog.fundmatrix.dto.kyc;
 
-public record KycStatusRequestDto(String Status) {
+import com.cog.fundmatrix.domain.enums.KycStatus;
+
+public record KycStatusRequestDto(KycStatus kycStatus) {
 
 }
