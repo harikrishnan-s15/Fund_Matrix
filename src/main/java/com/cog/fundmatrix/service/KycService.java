@@ -1,8 +1,10 @@
 package com.cog.fundmatrix.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.cog.fundmatrix.domain.KycRecord;
@@ -27,6 +29,15 @@ public class KycService {
           return new KycRecordDto(k.getId(),k.getInvestor(),k.getKycType(),k.getDocumentType(),k.getDocumentRef(),k.getVerifiedDate(),k.getKycStatus());
     }
 	
+	
+	public Boolean isKycExpired(LocalDate date)
+	{
+		if(date.plusMonths(6).isBefore(LocalDate.now()))
+		{
+			return true;
+		}
+		return false;
+	}
 	public KycRecordDto submitKyc(SubmitKycRequest dto)
 	{
 		KycRecord kycRecord=new KycRecord();
@@ -71,6 +82,24 @@ public class KycService {
 		KycRecord saved=kycRepo.save(record);
 		
 		return mapToKycDto(saved);
+		
+	}
+	
+	
+	@Scheduled(cron = "000**?")
+	public void checkKycExpiry()
+	{
+		List<KycRecord> records=kycRepo.findAll();
+		
+			for(KycRecord record:records)
+			{
+				if(record.getVerifiedDate() != null && record.getKycStatus()==KycStatus.COMPLIANT
+						&& isKycExpired(record.getVerifiedDate()))
+				{ 	
+					record.setKycStatus(KycStatus.EXPIRED);
+					System.out.println("kyc with id "+record.getId()+" is exprired.renewal required");
+				}
+			}
 		
 	}
 	
