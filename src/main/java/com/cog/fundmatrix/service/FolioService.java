@@ -11,6 +11,7 @@ import com.cog.fundmatrix.domain.enums.KycStatus;
 import com.cog.fundmatrix.dto.CreateFolioRequest;
 import com.cog.fundmatrix.dto.FolioDto;
 import com.cog.fundmatrix.dto.investorFolio.UpdateFolioRequest;
+import com.cog.fundmatrix.dto.investorFolio.UpdateFolioStatus;
 import com.cog.fundmatrix.repository.InvestorFolioRepository;
 import com.cog.fundmatrix.repository.KycRecordRepository;
 
@@ -116,6 +117,15 @@ public class FolioService {
 		
 		return maptoFolio(folio);
 		
+	}
+	
+	
+	public String updateFolioStatus(UUID folioId,UpdateFolioStatus dto)
+	{
+		InvestorFolio folio=folioRepo.findById(folioId).orElseThrow(()->new RuntimeException("no folio found"));
+		folio.setStatus(dto.status());
+		folioRepo.save(folio);
+		return "folio status updated";
 	}
 	
 	

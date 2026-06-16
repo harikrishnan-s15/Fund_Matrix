@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cog.fundmatrix.dto.CreateFolioRequest;
 import com.cog.fundmatrix.dto.FolioDto;
 import com.cog.fundmatrix.dto.investorFolio.UpdateFolioRequest;
+import com.cog.fundmatrix.dto.investorFolio.UpdateFolioStatus;
 import com.cog.fundmatrix.service.FolioService;
 
 @RestController
@@ -61,9 +62,10 @@ public class FolioController {
 	}
 	
 	@PutMapping("/{folioId}/status")
-	public ResponseEntity<String> updateFolioStatus()
+	public ResponseEntity<String> updateFolioStatus(@PathVariable UUID folioId,@RequestBody UpdateFolioStatus dto)
 	{
-		return ResponseEntity.ok(null);
+		String response=folioService.updateFolioStatus(folioId,dto);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 	}
 	
 	
