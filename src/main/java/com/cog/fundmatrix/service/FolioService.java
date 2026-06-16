@@ -1,6 +1,7 @@
 package com.cog.fundmatrix.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import com.cog.fundmatrix.domain.KycRecord;
 import com.cog.fundmatrix.domain.enums.KycStatus;
 import com.cog.fundmatrix.dto.CreateFolioRequest;
 import com.cog.fundmatrix.dto.FolioDto;
+import com.cog.fundmatrix.dto.investorFolio.UpdateFolioRequest;
 import com.cog.fundmatrix.repository.InvestorFolioRepository;
 import com.cog.fundmatrix.repository.KycRecordRepository;
 
@@ -74,6 +76,46 @@ public class FolioService {
 	{
 		List<InvestorFolio> folios=folioRepo.findAll();
 		return folios.stream().map((folio)->maptoFolio(folio)).toList();
+	}
+	
+	
+	public FolioDto updateFolio(UUID folioId,UpdateFolioRequest dto)
+	{
+		InvestorFolio folio=folioRepo.findById(folioId).orElseThrow(()->new RuntimeException("no folio found"));
+		
+		if(dto.taxStatus()!=null)
+		{
+			folio.setTaxStatus(dto.taxStatus());
+		}
+		if(dto.modeOfHolding()!=null)
+		{
+			folio.setModeOfHolding(dto.modeOfHolding());
+		}
+		if(dto.bankAccountRef()!=null)
+		{
+			folio.setBankAccountRef(dto.bankAccountRef());
+		}
+		
+		if(dto.nomineeDetails()!=null)
+		{
+			folio.setNomineeDetails(dto.nomineeDetails());
+		}
+		
+		InvestorFolio savedFolio=folioRepo.save(folio);
+		
+		
+		return maptoFolio(savedFolio);
+		
+	}
+	
+	
+	
+	public FolioDto getFolioById(UUID folioId)
+	{
+		InvestorFolio folio=folioRepo.findById(folioId).orElseThrow(()->new RuntimeException("no folio found"));
+		
+		return maptoFolio(folio);
+		
 	}
 	
 	
