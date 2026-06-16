@@ -1,5 +1,7 @@
 package com.cog.fundmatrix.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.cog.fundmatrix.domain.InvestorFolio;
@@ -36,7 +38,7 @@ public class FolioService {
 		InvestorFolio folio=new InvestorFolio();
 		
 		KycRecord kycRecord=kycRepo.findByInvestor(dto.investorId()).orElseThrow(()->
-		new RuntimeException("Kyc record not found for the investor")
+			new RuntimeException("Kyc record not found for the investor")
 		);
 		if(kycRecord.getKycStatus()!= KycStatus.COMPLIANT)
 		{
@@ -65,6 +67,13 @@ public class FolioService {
 		
 		return maptoFolio(savedFolio);
 		
+	}
+	
+	
+	public List<FolioDto> getFoliosList()
+	{
+		List<InvestorFolio> folios=folioRepo.findAll();
+		return folios.stream().map((folio)->maptoFolio(folio)).toList();
 	}
 	
 	

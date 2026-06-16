@@ -1,5 +1,8 @@
 package com.cog.fundmatrix.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +31,16 @@ public class FolioController {
 	@PostMapping("/")
 	public ResponseEntity<FolioDto> createFolio(@RequestBody CreateFolioRequest dto)
 	{
-		return ResponseEntity.ok(folioService.createFolio(dto));
+		FolioDto response=folioService.createFolio(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 	
 	
 	@GetMapping("/")
-	public ResponseEntity<FolioDto> getFolios()
+	public ResponseEntity<List<FolioDto>> getFolios()
 	{
-		return ResponseEntity.ok(null);
+		List<FolioDto> response=folioService.getFoliosList();
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/{folioId}")
