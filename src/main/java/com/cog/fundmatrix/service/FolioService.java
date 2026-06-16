@@ -15,9 +15,6 @@ import com.cog.fundmatrix.dto.investorFolio.UpdateFolioStatus;
 import com.cog.fundmatrix.repository.InvestorFolioRepository;
 import com.cog.fundmatrix.repository.KycRecordRepository;
 
-import tools.jackson.databind.ObjectMapper;
-
-
 @Service
 public class FolioService {
 
