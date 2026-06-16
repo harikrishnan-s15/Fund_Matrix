@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cog.fundmatrix.dto.KycRecordDto;
 import com.cog.fundmatrix.dto.SubmitKycRequest;
@@ -18,7 +19,7 @@ import com.cog.fundmatrix.dto.kyc.KycStatusRequestDto;
 import com.cog.fundmatrix.dto.kyc.KycStatusResposeDto;
 import com.cog.fundmatrix.service.KycService;
 
-@Controller
+@RestController
 @RequestMapping("/api/kyc")
 public class KycController {
 
