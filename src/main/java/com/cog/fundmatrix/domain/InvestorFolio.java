@@ -37,12 +37,14 @@ import lombok.Setter;
 		@GeneratedValue(strategy = GenerationType.UUID)
 		private UUID folioId;
 		
+		@ManyToOne
+		@JoinColumn(name = "investorId")
+		private User investor;
 		
-		private UUID investor;
 		
-		
-		
-		private UUID distibutor;
+		@ManyToOne
+		@JoinColumn(name = "distibutorId")
+		private User distibutor;
 		
 		@Enumerated(EnumType.STRING)
 		private TaxStatus taxStatus;

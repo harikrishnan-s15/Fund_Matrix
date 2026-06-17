@@ -14,7 +14,6 @@ public record CreateFolioRequest(
          UUID distributorId,
          TaxStatus taxStatus,
          ModeOfHolding modeOfHolding,
-         FolioStatus status,
          List<NomineeDetails> nomineeDetails,
          String bankAccountRef
 ) {

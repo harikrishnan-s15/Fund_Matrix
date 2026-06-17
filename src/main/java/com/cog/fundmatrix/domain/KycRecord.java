@@ -38,8 +38,10 @@ public class KycRecord {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 	
-   @Column(name = "investorId")
-    private String investor;
+	
+	@ManyToOne
+   @JoinColumn(name = "investorId")
+    private User investor;
 
     @Enumerated(EnumType.STRING)
     private KycType kycType;

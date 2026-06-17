@@ -43,6 +43,7 @@ public class UserService {
 		user.setName(dto.name());
 		user.setEmail(dto.email());
 		user.setRole(dto.role());
+		user.setPhone(dto.phone());
 		user.setStatus(UserStatus.ACTIVE);
 		String encryptedPassword=encoder.encode(dto.password());
 		user.setPassword(encryptedPassword);
