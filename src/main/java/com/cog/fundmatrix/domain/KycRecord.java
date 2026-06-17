@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.cog.fundmatrix.domain.enums.KycStatus;
 import com.cog.fundmatrix.domain.enums.KycType;
@@ -34,14 +35,15 @@ import com.cog.fundmatrix.domain.enums.KycType;
 public class KycRecord {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 	
-   
-    private String investor;
+	
+	@ManyToOne
+   @JoinColumn(name = "investorId")
+    private User investor;
 
     @Enumerated(EnumType.STRING)
-   
     private KycType kycType;
 
    
