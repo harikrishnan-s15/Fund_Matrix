@@ -1,4 +1,4 @@
-package com.cog.fundmatrix.security;
+package com.cog.fundmatrix.config;
 
 import org.springframework.context.annotation.Configuration;
 
