@@ -1,12 +1,14 @@
 package com.cog.fundmatrix.service;
 
 
+import com.cog.fundmatrix.dto.LoginRequest;
+import com.cog.fundmatrix.dto.RegisterRequest;
+import com.cog.fundmatrix.dto.UserResponse;
+
+
 import com.cog.fundmatrix.domain.User;
-import com.example.FundProject.domain.enums.UserStatus;
-import com.example.FundProject.dto.LoginRequest;
-import com.example.FundProject.dto.RegisterRequest;
-import com.example.FundProject.dto.UserResponse;
-import com.example.FundProject.repository.UserRepository;
+import com.cog.fundmatrix.domain.enums.UserStatus;
+import com.cog.fundmatrix.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +37,7 @@ public class AuthService {
                 .email(req.email())
                 .phone(req.phone())
                 .status(req.status())
-                .passwordHash(passwordEncoder.encode(req.passwordHash()))
+                .password(passwordEncoder.encode(req.password()))
                 .build();
         return toUser(userRepository.save(user));
     }
@@ -43,7 +45,7 @@ public class AuthService {
     @Transactional(readOnly = true)
     public UserResponse login(LoginRequest req) throws Exception{
         User user = userRepository.findByEmailIgnoreCase(req.email())
-                .filter(u -> passwordEncoder.matches(req.password(), u.getPasswordHash()))
+                .filter(u -> passwordEncoder.matches(req.password(), u.getPassword()))
                 .orElseThrow(() -> new Exception("Invalid email or password"));
         if (user.getStatus() != UserStatus.ACTIVE) {
             throw new Exception("Account is " + user.getStatus());
