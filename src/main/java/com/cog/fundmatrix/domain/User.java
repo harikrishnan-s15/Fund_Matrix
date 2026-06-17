@@ -1,5 +1,4 @@
 package com.cog.fundmatrix.domain;
-
 import java.util.UUID;
 
 import com.cog.fundmatrix.domain.enums.Role;
@@ -31,10 +30,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class User {
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID userId;
-	
+    private UUID id;
     @Column(nullable = false, length = 120)
     private String name;
 
@@ -53,6 +51,6 @@ public class User {
     private UserStatus status;
 
     /** BCrypt-hashed password; never serialized to the API. */
-    @Column(name = "password")
+    @Column(name = "password_hash", nullable = false, length = 100)
     private String password;
 }

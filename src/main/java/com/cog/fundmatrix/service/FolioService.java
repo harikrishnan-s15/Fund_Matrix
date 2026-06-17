@@ -34,7 +34,7 @@ public class FolioService {
 	
 	private FolioDto maptoFolio(InvestorFolio folio)
 	{
-		return new FolioDto(folio.getFolioId(),folio.getInvestor().getUserId(),folio.getDistibutor()!=null ?folio.getDistibutor().getUserId():null,folio.getTaxStatus()
+		return new FolioDto(folio.getFolioId(),folio.getInvestor().getId(),folio.getDistibutor()!=null ?folio.getDistibutor().getId():null,folio.getTaxStatus()
 				,folio.getModeOfHolding(),folio.getNomineeDetails(),folio.getBankAccountRef(),folio.getStatus());
 	}
 	
@@ -42,7 +42,7 @@ public class FolioService {
 	{
 		InvestorFolio folio=new InvestorFolio();
 		
-		KycRecord kycRecord=kycRepo.findByInvestor_UserId(dto.investorId()).orElseThrow(()->
+		KycRecord kycRecord=kycRepo.findByInvestor_Id(dto.investorId()).orElseThrow(()->
 			new RuntimeException("Kyc record not found for the investor")
 		);
 		if(kycRecord.getKycStatus()!= KycStatus.COMPLIANT)
@@ -129,6 +129,7 @@ public class FolioService {
 		folio.setStatus(dto.status());
 		folioRepo.save(folio);
 		return "folio status updated";
+		
 	}
 	
 	

@@ -34,7 +34,7 @@ public class UserService {
 
 	public UserDto mapToResponse(User saved)
 	{
-		UserDto response=new UserDto(saved.getUserId(),saved.getName(),saved.getEmail(),saved.getPhone(),saved.getRole(),saved.getStatus());
+		UserDto response=new UserDto(saved.getId(),saved.getName(),saved.getEmail(),saved.getPhone(),saved.getRole(),saved.getStatus());
 		return response;
 	}
 	

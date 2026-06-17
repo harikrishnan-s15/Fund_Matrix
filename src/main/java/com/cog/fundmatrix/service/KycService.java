@@ -31,7 +31,7 @@ public class KycService {
 	}
 	
 	public KycRecordDto mapToKycDto(KycRecord k) {
-          return new KycRecordDto(k.getId(),k.getInvestor().getUserId(),k.getKycType(),k.getDocumentType(),k.getDocumentRef(),k.getVerifiedDate(),k.getKycStatus());
+          return new KycRecordDto(k.getId(),k.getInvestor().getId(),k.getKycType(),k.getDocumentType(),k.getDocumentRef(),k.getVerifiedDate(),k.getKycStatus());
     }
 	
 	
@@ -70,7 +70,7 @@ public class KycService {
 	
 	public KycStatusResposeDto getKycStatus(UUID investorId)
 	{
-		KycRecord record=kycRepo.findByInvestor_UserId(investorId).orElseThrow(()->
+		KycRecord record=kycRepo.findByInvestor_Id(investorId).orElseThrow(()->
 		new ResouceNotFoundException("kyc record not found")
 		);
 		KycStatusResposeDto response=new KycStatusResposeDto(record.getId(),record.getKycStatus());
