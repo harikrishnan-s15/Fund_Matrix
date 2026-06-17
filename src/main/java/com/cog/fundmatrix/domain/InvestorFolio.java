@@ -1,11 +1,17 @@
 package com.cog.fundmatrix.domain;
 
+import java.util.List;
 import java.util.UUID;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.cog.fundmatrix.domain.enums.FolioStatus;
 import com.cog.fundmatrix.domain.enums.ModeOfHolding;
 import com.cog.fundmatrix.domain.enums.TaxStatus;
+import com.cog.fundmatrix.dto.investorFolio.NomineeDetails;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,12 +37,14 @@ import lombok.Setter;
 		@GeneratedValue(strategy = GenerationType.UUID)
 		private UUID folioId;
 		
+		@ManyToOne
+		@JoinColumn(name = "investorId")
+		private User investor;
 		
-		private String investor;
 		
-		
-		
-		private String distibutor;
+		@ManyToOne
+		@JoinColumn(name = "distibutorId")
+		private User distibutor;
 		
 		@Enumerated(EnumType.STRING)
 		private TaxStatus taxStatus;
@@ -48,6 +56,11 @@ import lombok.Setter;
 		
 		@Enumerated(EnumType.STRING)
 		private FolioStatus status;
+		
+		
+		@JdbcTypeCode(SqlTypes.JSON)
+		@Column(columnDefinition = "json",name = "nomineeDetails")
+		List<NomineeDetails> nomineeDetails;
 		
 		
 	}
