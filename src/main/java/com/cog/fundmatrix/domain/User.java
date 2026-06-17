@@ -1,5 +1,4 @@
 package com.cog.fundmatrix.domain;
-
 import java.util.UUID;
 
 import com.cog.fundmatrix.domain.enums.Role;

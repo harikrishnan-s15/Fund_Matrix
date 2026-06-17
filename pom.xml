@@ -8,7 +8,7 @@
         <version>3.5.14</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.fundmatrix</groupId>
+    <groupId>com.cog</groupId>
     <artifactId>fundmatrix</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fundmatrix</name>
@@ -159,3 +159,4 @@
     </build>
 
 </project>
+ 
