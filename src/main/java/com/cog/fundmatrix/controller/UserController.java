@@ -21,9 +21,9 @@ import com.cog.fundmatrix.dto.user.UpdateUserStatusRequest;
 import com.cog.fundmatrix.dto.user.UserDto;
 import com.cog.fundmatrix.service.UserService;
 
-
-@RestController
-@RequestMapping("/api/users")
+//
+//@RestController
+//@RequestMapping("/api/users")
 public class UserController {
 	
 	private UserService userService;
