@@ -21,8 +21,11 @@ import com.cog.fundmatrix.dto.NAVRecordDto.NAVResponse;
 import com.cog.fundmatrix.dto.NAVRecordDto.ReviseNAVRequest;
 import com.cog.fundmatrix.service.NAVService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
-@RequestMapping("/api/nav/")
+@RequestMapping("/api/nav")
+@SecurityRequirement(name = "bearerAuth")
 public class NAVController {
 	
 	
