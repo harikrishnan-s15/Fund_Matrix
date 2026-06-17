@@ -9,7 +9,7 @@ import com.cog.fundmatrix.domain.enums.KycType;
 
 public record KycRecordDto(
         UUID id,
-        String investorId,
+        UUID investorId,
 //        String investorName,
         KycType kycType,
         String documentType,

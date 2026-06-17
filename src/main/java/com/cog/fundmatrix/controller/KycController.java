@@ -40,10 +40,9 @@ public class KycController {
 	}
 	
 	@GetMapping("/investor/{investorId}")
-	public ResponseEntity<KycStatusResposeDto> getKycStatus(@PathVariable String investorId)
+	public ResponseEntity<KycStatusResposeDto> getKycStatus(@PathVariable UUID investorId)
 	{
-		UUID investorUuid=UUID.fromString(investorId);
-		KycStatusResposeDto response=kycService.getKycStatus(investorUuid);
+		KycStatusResposeDto response=kycService.getKycStatus(investorId);
 		return ResponseEntity.ok(response);
 	}
 	

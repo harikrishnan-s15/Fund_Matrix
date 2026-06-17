@@ -12,7 +12,7 @@ import lombok.Data;
  */
 
 public record SubmitKycRequest(
-		String investorId,
+		UUID investorId,
         KycType kycType,
         String documentType,
         String documentRef

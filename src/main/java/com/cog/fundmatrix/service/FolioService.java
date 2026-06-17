@@ -7,29 +7,34 @@ import org.springframework.stereotype.Service;
 
 import com.cog.fundmatrix.domain.InvestorFolio;
 import com.cog.fundmatrix.domain.KycRecord;
+import com.cog.fundmatrix.domain.User;
+import com.cog.fundmatrix.domain.enums.FolioStatus;
 import com.cog.fundmatrix.domain.enums.KycStatus;
 import com.cog.fundmatrix.dto.CreateFolioRequest;
 import com.cog.fundmatrix.dto.FolioDto;
 import com.cog.fundmatrix.dto.investorFolio.UpdateFolioRequest;
 import com.cog.fundmatrix.dto.investorFolio.UpdateFolioStatus;
+import com.cog.fundmatrix.exception.ResouceNotFoundException;
 import com.cog.fundmatrix.repository.InvestorFolioRepository;
 import com.cog.fundmatrix.repository.KycRecordRepository;
+import com.cog.fundmatrix.repository.UserRepository;
 
 @Service
 public class FolioService {
 
 	private InvestorFolioRepository folioRepo;
 	private KycRecordRepository kycRepo;
-	
-	public FolioService(InvestorFolioRepository folioRepo, KycRecordRepository kycRepo) {
+	private UserRepository userRepo;
+	public FolioService(InvestorFolioRepository folioRepo, KycRecordRepository kycRepo,UserRepository userRepo) {
 		super();
 		this.folioRepo = folioRepo;
 		this.kycRepo = kycRepo;
+		this.userRepo=userRepo;
 	}
 	
 	private FolioDto maptoFolio(InvestorFolio folio)
 	{
-		return new FolioDto(folio.getFolioId(),folio.getInvestor(),folio.getDistibutor(),folio.getTaxStatus()
+		return new FolioDto(folio.getFolioId(),folio.getInvestor().getUserId(),folio.getDistibutor()!=null ?folio.getDistibutor().getUserId():null,folio.getTaxStatus()
 				,folio.getModeOfHolding(),folio.getNomineeDetails(),folio.getBankAccountRef(),folio.getStatus());
 	}
 	
@@ -37,7 +42,7 @@ public class FolioService {
 	{
 		InvestorFolio folio=new InvestorFolio();
 		
-		KycRecord kycRecord=kycRepo.findByInvestor(dto.investorId()).orElseThrow(()->
+		KycRecord kycRecord=kycRepo.findByInvestor_UserId(dto.investorId()).orElseThrow(()->
 			new RuntimeException("Kyc record not found for the investor")
 		);
 		if(kycRecord.getKycStatus()!= KycStatus.COMPLIANT)
@@ -47,18 +52,19 @@ public class FolioService {
 		
 		if(dto.distributorId()!=null)
 		{
-			folio.setDistibutor(dto.distributorId());
+			User distibutor=userRepo.findById(dto.distributorId()).orElseThrow(()->new ResouceNotFoundException("distibutor not found"));
+			folio.setDistibutor(distibutor);
 		}
 		else
 		{
-			folio.setInvestor(null);
+			folio.setDistibutor(null);
 		}
-		
-		folio.setInvestor(dto.investorId());
+		User investor=userRepo.findById(dto.investorId()).orElseThrow(()->new ResouceNotFoundException("investor not found"));
+		folio.setInvestor(investor);
 		folio.setBankAccountRef(dto.bankAccountRef());
 		folio.setModeOfHolding(dto.modeOfHolding());
 		folio.setTaxStatus(dto.taxStatus());
-		folio.setStatus(dto.status());
+		folio.setStatus(FolioStatus.ACTIVE);
 		
 		folio.setNomineeDetails(dto.nomineeDetails());
 		

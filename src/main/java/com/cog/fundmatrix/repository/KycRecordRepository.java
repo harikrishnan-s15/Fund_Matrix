@@ -11,5 +11,5 @@ import com.cog.fundmatrix.domain.KycRecord;
 
 @Repository
 public interface KycRecordRepository extends JpaRepository<KycRecord, UUID>{
-	public Optional<KycRecord> findByInvestor(UUID id);
+	public Optional<KycRecord> findByInvestor_UserId(UUID id);
 }

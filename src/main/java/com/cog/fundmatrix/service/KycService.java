@@ -8,25 +8,30 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.cog.fundmatrix.domain.KycRecord;
+import com.cog.fundmatrix.domain.User;
 import com.cog.fundmatrix.domain.enums.KycStatus;
 import com.cog.fundmatrix.dto.KycRecordDto;
 import com.cog.fundmatrix.dto.SubmitKycRequest;
 import com.cog.fundmatrix.dto.kyc.KycStatusResposeDto;
+import com.cog.fundmatrix.exception.ResouceNotFoundException;
 import com.cog.fundmatrix.repository.KycRecordRepository;
+import com.cog.fundmatrix.repository.UserRepository;
 
 @Service
 public class KycService {
 
 	
 	private KycRecordRepository kycRepo;
+	private UserRepository userRepo;
 
-	public KycService(KycRecordRepository kycRepo) {
+	public KycService(KycRecordRepository kycRepo,UserRepository userRepo) {
 		super();
 		this.kycRepo = kycRepo;
+		this.userRepo=userRepo;
 	}
 	
 	public KycRecordDto mapToKycDto(KycRecord k) {
-          return new KycRecordDto(k.getId(),k.getInvestor(),k.getKycType(),k.getDocumentType(),k.getDocumentRef(),k.getVerifiedDate(),k.getKycStatus());
+          return new KycRecordDto(k.getId(),k.getInvestor().getUserId(),k.getKycType(),k.getDocumentType(),k.getDocumentRef(),k.getVerifiedDate(),k.getKycStatus());
     }
 	
 	
@@ -41,9 +46,10 @@ public class KycService {
 	public KycRecordDto submitKyc(SubmitKycRequest dto)
 	{
 		KycRecord kycRecord=new KycRecord();
+		User user=userRepo.findById(dto.investorId()).orElseThrow(()->new ResouceNotFoundException("investor not found"));
 		kycRecord.setDocumentRef(dto.documentRef());
 		kycRecord.setDocumentType(dto.documentType());
-		kycRecord.setInvestor(dto.investorId());
+		kycRecord.setInvestor(user);
 		kycRecord.setKycType(dto.kycType());
 		kycRecord.setKycStatus(KycStatus.PENDING);
 		
@@ -64,8 +70,8 @@ public class KycService {
 	
 	public KycStatusResposeDto getKycStatus(UUID investorId)
 	{
-		KycRecord record=kycRepo.findByInvestor(investorId).orElseThrow(()->
-		new RuntimeException("no record found")
+		KycRecord record=kycRepo.findByInvestor_UserId(investorId).orElseThrow(()->
+		new ResouceNotFoundException("kyc record not found")
 		);
 		KycStatusResposeDto response=new KycStatusResposeDto(record.getId(),record.getKycStatus());
 		

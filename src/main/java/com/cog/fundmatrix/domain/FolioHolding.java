@@ -36,8 +36,8 @@ public class FolioHolding {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID holdingId;
 	
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "folio_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "folioId")
     private InvestorFolio folio;
 
 //    @ManyToOne(fetch = FetchType.LAZY, optional = false)
