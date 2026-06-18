@@ -15,6 +15,6 @@ public record UserDto(
         String phone,
         Role role,
         UserStatus status
-//        Instant createdAt
+
 ) {
 }
