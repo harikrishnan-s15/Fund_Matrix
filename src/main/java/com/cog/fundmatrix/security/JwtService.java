@@ -1,6 +1,7 @@
 package com.cog.fundmatrix.security;
 
 import com.cog.fundmatrix.domain.User;
+import com.cog.fundmatrix.domain.enums.Role;
 import com.cog.fundmatrix.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,6 +13,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 /** Issues and validates HMAC-signed JSON Web Tokens for stateless authentication. */
 @Service
@@ -49,6 +51,14 @@ public class JwtService {
 
     public String extractUsername(String token) {
         return parse(token).getSubject();
+    }
+
+    public UUID extractId(String token){
+        return parse(token).get("uid", UUID.class);
+    }
+
+    public Role extarctRole(String token){
+        return parse(token).get("role", Role.class);
     }
 
     public boolean isValid(String token) {
