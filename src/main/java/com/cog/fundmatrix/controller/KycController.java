@@ -20,7 +20,7 @@ import com.cog.fundmatrix.dto.kyc.KycStatusResposeDto;
 import com.cog.fundmatrix.service.KycService;
 
 @RestController
-@RequestMapping("/api/kyc")
+@RequestMapping("/kyc")
 public class KycController {
 
 	private KycService kycService;
