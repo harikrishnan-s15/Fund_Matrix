@@ -20,7 +20,7 @@ import com.cog.fundmatrix.dto.investorFolio.UpdateFolioRequest;
 import com.cog.fundmatrix.dto.investorFolio.UpdateFolioStatus;
 import com.cog.fundmatrix.service.FolioService;
 
-@RestController
+//@RestController
 @RequestMapping("/api/folios")
 public class FolioController {
 	private FolioService folioService;
