@@ -5,13 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.cog.fundmatrix.dto.ErrorResponse;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
 	
 	@ExceptionHandler(ResouceNotFoundException.class)
-	public ResponseEntity<String> handleNotFound(ResouceNotFoundException ex)
+	public ResponseEntity<ErrorResponse> handleNotFound(ResouceNotFoundException ex)
 	{
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getMessage(),true,false));
 	}
 }

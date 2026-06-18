@@ -63,7 +63,7 @@ public class KycService {
 	public KycRecordDto getKycDetails(UUID id)
 	{
 		KycRecord record=kycRepo.findById(id).orElseThrow(()->
-		new RuntimeException("no record found")
+		new ResouceNotFoundException("no record found")
 		);
 		return mapToKycDto(record);
 	}
@@ -115,6 +115,19 @@ public class KycService {
 				}
 			}
 		
+	}
+	
+	
+	public Boolean isKycVerified(UUID kycId)
+	{
+		KycRecord record=kycRepo.findById(kycId).orElseThrow(()->
+			new ResouceNotFoundException("kyc record not found")
+		);
+		if(record.getKycStatus()!=KycStatus.COMPLIANT)
+		{
+			return false;
+		}
+		return true;
 	}
 	
 }
