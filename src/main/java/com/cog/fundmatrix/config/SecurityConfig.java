@@ -52,6 +52,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/auth/users/refresh", "/auth/users/me", "/auth/users/*").hasAnyAuthority("ADMIN","INVESTOR")
                         .requestMatchers(HttpMethod.PUT, "/auth/users/*").hasAnyAuthority("ADMIN","INVESTOR")
                         .requestMatchers(HttpMethod.POST, "/kyc").hasAuthority("INVESTOR")
+                        .requestMatchers(HttpMethod.GET, "/kyc/*").hasAuthority("INVESTOR")
+                        .requestMatchers(HttpMethod.GET, "/kyc/investor/*").hasAuthority("INVESTOR")
+//                        .requestMatchers(HttpMethod.GET, "/kyc/investor/*").hasAuthority("INVESTOR")
                         // Everything else → DB-driven permission check
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
