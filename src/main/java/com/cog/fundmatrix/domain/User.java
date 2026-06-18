@@ -1,27 +1,21 @@
 package com.cog.fundmatrix.domain;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import com.cog.fundmatrix.domain.enums.Role;
 import com.cog.fundmatrix.domain.enums.UserStatus;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
-/**
- * Identity record for every platform actor: investors, distributors and AMC staff.
- * The {@link Role} drives RBAC; {@code passwordHash} backs JWT authentication.
- */
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -53,4 +47,8 @@ public class User {
     /** BCrypt-hashed password; never serialized to the API. */
     @Column(name = "password_hash", nullable = false, length = 100)
     private String password;
+
+    @Column(name = "tokenVersion", nullable = false, length = 100)
+    private Long tokenVersion;
+
 }
