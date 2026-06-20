@@ -54,6 +54,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/kyc").hasAuthority("INVESTOR")
                         .requestMatchers(HttpMethod.GET, "/kyc/*").hasAuthority("INVESTOR")
                         .requestMatchers(HttpMethod.GET, "/kyc/investor/*").hasAuthority("INVESTOR")
+                        .requestMatchers(HttpMethod.GET, "/holdings/**").hasAuthority("INVESTOR")
+                        .requestMatchers("/folios/**").hasAnyAuthority("INVESTOR","FUND_OPS")
 //                        .requestMatchers(HttpMethod.GET, "/kyc/investor/*").hasAuthority("INVESTOR")
                         // Everything else → DB-driven permission check
                         .anyRequest().authenticated())

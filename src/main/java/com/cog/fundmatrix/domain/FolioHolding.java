@@ -34,10 +34,18 @@ public class FolioHolding {
 	@JoinColumn(name = "folioId")
 	private InvestorFolio folio;
 	
+//	@ManyToOne
+//	@JoinColumn(name = "folioId")
+	private String schemeId;
+	
+//	@ManyToOne
+//	@JoinColumn(name = "folioId")
+	private String optionId;
+	
 	private BigDecimal units;
 	
 	private BigDecimal AverageCostNAV;
-	
+	private BigDecimal latestNavl;
 	private BigDecimal CurrentValue;
 	private BigDecimal UnrealisedGainLoss;
 	
