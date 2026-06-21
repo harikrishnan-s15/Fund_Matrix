@@ -7,11 +7,13 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.cog.fundmatrix.domain.FolioHolding;
 import com.cog.fundmatrix.domain.InvestorFolio;
 
 
 @Repository
 public interface InvestorFolioRepository extends JpaRepository<InvestorFolio, UUID> {
+	public List<InvestorFolio> findAllByInvestor_Id(UUID investorId);
 
 //    Optional<InvestorFolio> findByFolioNumber(String folioNumber);
 //

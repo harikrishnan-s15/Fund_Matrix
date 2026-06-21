@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cog.fundmatrix.dto.folioHolding.FolioHoldingDto;
+import com.cog.fundmatrix.dto.folioHolding.PortfolioResponse;
 import com.cog.fundmatrix.service.FolioHoldingService;
 
 @RestController
@@ -36,5 +37,21 @@ public class FolioHoldingController {
 		
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(holdings);
 	}
-
+	
+	@GetMapping("/{holdingId}")
+	public ResponseEntity<FolioHoldingDto> getFolioHolding(@PathVariable UUID holdingId)
+	{
+		FolioHoldingDto holding=holdingService.getFolioHolding(holdingId);
+		
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(holding);
+	}
+	
+	@GetMapping("investors/{investorId}/portfolio")
+	public ResponseEntity<PortfolioResponse> getPortfolio(@PathVariable UUID investorId)
+	{
+		PortfolioResponse holdingSummaries=holdingService.getPortfolio(investorId);
+		
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(holdingSummaries);
+	}
+	
 }

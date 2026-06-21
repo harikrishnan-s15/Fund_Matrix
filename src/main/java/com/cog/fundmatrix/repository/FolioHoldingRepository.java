@@ -13,4 +13,5 @@ import com.cog.fundmatrix.domain.FolioHolding;
 public interface FolioHoldingRepository extends JpaRepository<FolioHolding, UUID> {
 
 	public List<FolioHolding> findAllByFolio_FolioId(UUID folioId);
+	public List<FolioHolding> findAllByFolio_FolioIdIn(List<UUID> folioIds);
 }
